@@ -1,8 +1,12 @@
 C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\model\User.java
 C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\model\LearningUpdate.java
+C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\dto\ResourceDTO.java
 C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\security\CustomUserDetailsService.java
 C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\dto\RegisterRequest.java
+C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\model\Resource.java
 C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\security\JwtService.java
+C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\controller\LearningController.java
+C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\model\Week.java
 C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\package-info.java
 C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\SkillSharingApplication.java
 C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\repository\UserRepository.java
@@ -12,4 +16,6 @@ C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\c
 C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\service\AuthService.java
 C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\security\JwtAuthenticationFilter.java
 C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\config\WebConfig.java
+C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\dto\WeekDTO.java
 C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\dto\AuthRequest.java
+C:\Users\User\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\repository\LearningUpdateRepository.java
