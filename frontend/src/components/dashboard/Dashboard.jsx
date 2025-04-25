@@ -2,8 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../../config/apiConfig';
 import Navbar from '../common/Navbar';
+import DefaultAvatar from '../../assets/avatar.png';
 import { storage } from '../../config/firebaseConfig';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { useToast } from '../common/Toast';
+import SharePostModal from '../common/SharePostModal';
+import CommentSection from '../common/CommentSection';
+import ConfirmDialog from '../common/ConfirmDialog';
 
 const Dashboard = () => {
   const navigate = useNavigate();
