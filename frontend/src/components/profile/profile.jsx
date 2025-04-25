@@ -9,14 +9,12 @@ import { useToast } from '../common/Toast';
 
 // Import components
 import ProfileHeader from './components/ProfileHeader';
-import AboutSection from './components/AboutSection';
 import PostsTab from './components/PostsTab';
 import LearningTab from './components/LearningTab';
 import AchievementsTab from './components/AchievementsTab';
 import FollowModal from './components/FollowModal';
 import PostCreationModal from './components/PostCreationModal';
 import SharePostModal from '../common/SharePostModal';
-import LearningStreakSection from './components/LearningStreakSection';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -61,9 +59,6 @@ const Profile = () => {
   // Shared post state
   const [showShareModal, setShowShareModal] = useState(false);
   const [postToShare, setPostToShare] = useState(null);
-
-  // Add a refresh trigger state for streak component
-  const [streakRefreshTrigger, setStreakRefreshTrigger] = useState(0);
 
   // Add this like post handler function
   const handleLikePost = async (postId) => {
@@ -120,8 +115,6 @@ const Profile = () => {
   // Update the user state handler to be able to refresh user data when skills are updated
   const handleUserUpdated = (updatedUser) => {
     setUser(updatedUser);
-    // Increment the refresh trigger to force streak component to update
-    setStreakRefreshTrigger((prev) => prev + 1);
   };
 
   // Fetch profile data - either current user or another user
@@ -536,12 +529,12 @@ const Profile = () => {
   if (error) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-PrimaryColor">
-        <div className="bg-white p-8 rounded-lg shadow-md">
+        <div className="bg-white p-8 rounded-xl shadow-soft">
           <h2 className="text-xl text-red-600 font-semibold mb-4">Error</h2>
           <p>{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 bg-DarkColor text-white rounded-md hover:bg-ExtraDarkColor"
+            className="mt-4 btn-primary"
           >
             Retry
           </button>
@@ -551,7 +544,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-PrimaryColor">
       {/* Navbar */}
       <Navbar user={currentUser} />
 
@@ -574,111 +567,81 @@ const Profile = () => {
       />
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 px-4 sm:px-6 lg:px-8">
-        {/* Left Sidebar */}
-        <div className="md:col-span-1">
-          <AboutSection
-            user={user}
-            isEditing={isEditing}
-            editForm={editForm}
-            setEditForm={setEditForm}
-            handleEditSubmit={handleEditSubmit}
-            handleSkillChange={handleSkillChange}
-            isUploading={isUploading}
-            imageUpload={imageUpload}
-            imagePreview={imagePreview}
-            setImageUpload={setImageUpload}
-            setImagePreview={setImagePreview}
-            triggerFileInput={triggerFileInput}
-            fileInputRef={fileInputRef}
-          />
+      <div className="max-w-7xl mx-auto mt-6 px-4 sm:px-6 lg:px-8">
+        {/* Main Content Area - AboutSection removed and grid adjusted */}
+        <div className="bg-white shadow-soft rounded-xl overflow-hidden">
+          <div className="border-b border-gray-100">
+            <nav className="flex">
+              <button
+                onClick={() => setActiveTab('posts')}
+                className={`py-4 px-6 text-center border-b-2 font-medium text-sm flex items-center ${
+                  activeTab === 'posts'
+                    ? 'border-DarkColor text-DarkColor'
+                    : 'border-transparent text-gray-500 hover:text-DarkColor hover:border-DarkColor/30'
+                } transition-colors`}
+              >
+                <i className="bx bx-message-square-detail mr-2 text-lg"></i>
+                Posts
+              </button>
+              <button
+                onClick={() => setActiveTab('learning')}
+                className={`py-4 px-6 text-center border-b-2 font-medium text-sm flex items-center ${
+                  activeTab === 'learning'
+                    ? 'border-DarkColor text-DarkColor'
+                    : 'border-transparent text-gray-500 hover:text-DarkColor hover:border-DarkColor/30'
+                } transition-colors`}
+              >
+                <i className="bx bx-book-open mr-2 text-lg"></i>
+                Learning
+              </button>
+              <button
+                onClick={() => setActiveTab('achievements')}
+                className={`py-4 px-6 text-center border-b-2 font-medium text-sm flex items-center ${
+                  activeTab === 'achievements'
+                    ? 'border-DarkColor text-DarkColor'
+                    : 'border-transparent text-gray-500 hover:text-DarkColor hover:border-DarkColor/30'
+                } transition-colors`}
+              >
+                <i className="bx bx-trophy mr-2 text-lg"></i>
+                Achievements
+              </button>
+            </nav>
+          </div>
 
-          {/* Add the refreshTrigger prop to the streak section */}
-          {user && (
-            <LearningStreakSection
-              user={user}
-              refreshTrigger={streakRefreshTrigger}
-            />
-          )}
-        </div>
+          {/* Tab Content */}
+          <div className="p-6">
+            {activeTab === 'posts' && (
+              <PostsTab
+                isCurrentUserProfile={isCurrentUserProfile}
+                user={user}
+                currentUser={currentUser}
+                setShowPostModal={setShowPostModal}
+                postFileInputRef={postFileInputRef}
+                isLoadingPosts={isLoadingPosts}
+                posts={posts}
+                setPosts={setPosts}
+                formatPostDate={formatPostDate}
+                handleLikePost={handleLikePost}
+                handleSharePost={handleSharePost}
+                handlePostUpdated={handlePostUpdated}
+              />
+            )}
 
-        {/* Main Content Area */}
-        <div className="md:col-span-2">
-          {/* Tabs */}
-          <div className="bg-white shadow-md rounded-lg overflow-hidden">
-            <div className="border-b border-gray-200">
-              <nav className="flex">
-                <button
-                  onClick={() => setActiveTab('posts')}
-                  className={`py-4 px-6 text-center border-b-2 font-medium text-sm flex items-center ${
-                    activeTab === 'posts'
-                      ? 'border-DarkColor text-DarkColor'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-                >
-                  <i className="bx bx-message-square-detail mr-2 text-lg"></i>
-                  Posts
-                </button>
-                <button
-                  onClick={() => setActiveTab('learning')}
-                  className={`py-4 px-6 text-center border-b-2 font-medium text-sm flex items-center ${
-                    activeTab === 'learning'
-                      ? 'border-DarkColor text-DarkColor'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-                >
-                  <i className="bx bx-book-open mr-2 text-lg"></i>
-                  Learning
-                </button>
-                <button
-                  onClick={() => setActiveTab('achievements')}
-                  className={`py-4 px-6 text-center border-b-2 font-medium text-sm flex items-center ${
-                    activeTab === 'achievements'
-                      ? 'border-DarkColor text-DarkColor'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-                >
-                  <i className="bx bx-trophy mr-2 text-lg"></i>
-                  Achievements
-                </button>
-              </nav>
-            </div>
+            {activeTab === 'learning' && (
+              <LearningTab
+                user={user}
+                currentUser={currentUser}
+                isCurrentUserProfile={isCurrentUserProfile}
+              />
+            )}
 
-            {/* Tab Content */}
-            <div className="p-6">
-              {activeTab === 'posts' && (
-                <PostsTab
-                  isCurrentUserProfile={isCurrentUserProfile}
-                  user={user}
-                  currentUser={currentUser}
-                  setShowPostModal={setShowPostModal}
-                  postFileInputRef={postFileInputRef}
-                  isLoadingPosts={isLoadingPosts}
-                  posts={posts}
-                  setPosts={setPosts}
-                  formatPostDate={formatPostDate}
-                  handleLikePost={handleLikePost}
-                  handleSharePost={handleSharePost}
-                  handlePostUpdated={handlePostUpdated}
-                />
-              )}
-
-              {activeTab === 'learning' && (
-                <LearningTab
-                  user={user}
-                  currentUser={currentUser}
-                  isCurrentUserProfile={isCurrentUserProfile}
-                />
-              )}
-
-              {activeTab === 'achievements' && (
-                <AchievementsTab
-                  user={user}
-                  currentUser={currentUser}
-                  onUserUpdated={handleUserUpdated}
-                />
-              )}
-            </div>
+            {activeTab === 'achievements' && (
+              <AchievementsTab
+                user={user}
+                currentUser={currentUser}
+                onUserUpdated={handleUserUpdated}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -699,6 +662,7 @@ const Profile = () => {
         postFileInputRef={postFileInputRef}
       />
 
+      {/* Modals */}
       {/* Followers Modal */}
       <FollowModal
         isOpen={showFollowersModal}
@@ -728,10 +692,10 @@ const Profile = () => {
       />
 
       {/* Footer */}
-      <footer className="bg-white mt-12 py-6 border-t">
+      <footer className="bg-white mt-12 py-6 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-gray-500 text-sm">
-            © 2025 SkillShare Platform. All rights reserved.
+            © 2025 Prolearn Platform. All rights reserved.
           </p>
         </div>
       </footer>

@@ -399,15 +399,15 @@ const Navbar = ({ user }) => {
   }, [user]);
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-gradient-to-r from-slate-900/90 to-slate-800/90 backdrop-blur-lg shadow-xl sticky top-0 z-50 border-b border-slate-700/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <span 
-              className="text-ExtraDarkColor text-xl font-bold cursor-pointer mr-6"
+              className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent text-xl font-bold cursor-pointer mr-6 tracking-wider"
               onClick={() => navigate('/dashboard')}
             >
-              SkillShare
+              ProlearnX
             </span>
             
             {/* Search Bar */}
@@ -415,29 +415,39 @@ const Navbar = ({ user }) => {
               <div className="relative">
                 <input
                   type="text"
-                  className="bg-gray-100 px-4 py-2 pr-10 rounded-full w-64 focus:outline-none focus:ring-2 focus:ring-DarkColor focus:bg-white transition-colors"
+                  className="bg-slate-800/50 border border-slate-600/50 backdrop-blur-sm text-white rounded-full pl-10 pr-10 w-64 py-2 transition-all duration-300 focus:ring-1 focus:ring-blue-400 focus:border-blue-400 focus:shadow-glow-blue"
                   placeholder="Search for users..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onFocus={handleSearchFocus}
                 />
+                <div className="absolute left-3 top-2.5 text-slate-400">
+                  <i className='bx bx-search-alt'></i>
+                </div>
                 <div className="absolute right-3 top-2.5">
                   {isSearching ? (
-                    <div className="animate-spin h-5 w-5 border-2 border-DarkColor border-t-transparent rounded-full"></div>
+                    <div className="animate-spin h-5 w-5 border-2 border-blue-400 border-t-transparent rounded-full"></div>
                   ) : (
-                    <i className='bx bx-search text-gray-500'></i>
+                    searchTerm && (
+                      <button 
+                        onClick={() => setSearchTerm('')}
+                        className="text-slate-400 hover:text-blue-400 transition-colors"
+                      >
+                        <i className='bx bx-x-circle'></i>
+                      </button>
+                    )
                   )}
                 </div>
               </div>
               
               {/* Search Results Dropdown */}
               {showResults && (
-                <div className="absolute mt-2 w-80 bg-white rounded-lg shadow-lg overflow-hidden z-10">
+                <div className="absolute mt-2 w-80 bg-slate-800/90 backdrop-blur-md rounded-xl shadow-glow-blue overflow-hidden z-10 border border-slate-700/50">
                   {searchResults.length > 0 ? (
                     <ul>
                       {searchResults.map((result) => (
-                        <li key={result.id} className="border-b border-gray-100 last:border-0">
-                          <div className="flex items-center justify-between p-3 hover:bg-gray-50">
+                        <li key={result.id} className="border-b border-slate-700/50 last:border-0">
+                          <div className="flex items-center justify-between p-3 hover:bg-slate-700/50 transition-colors duration-200">
                             <div 
                               className="flex items-center cursor-pointer"
                               onClick={() => handleUserSelect(result.id)}
@@ -445,23 +455,23 @@ const Navbar = ({ user }) => {
                               <img 
                                 src={result.profilePicture || DefaultAvatar} 
                                 alt={result.fullName || result.username}
-                                className="h-10 w-10 rounded-full object-cover"
+                                className="h-10 w-10 rounded-full object-cover border-2 border-slate-600"
                               />
                               <div className="ml-3">
-                                <p className="font-medium text-gray-800">
+                                <p className="font-medium text-white">
                                   {result.firstName && result.lastName 
                                     ? `${result.firstName} ${result.lastName}`
                                     : result.firstName || result.lastName || result.username}
                                 </p>
-                                <p className="text-xs text-gray-500">@{result.username}</p>
-                                <p className="text-sm text-gray-500 truncate">{result.bio || 'No bio'}</p>
+                                <p className="text-xs text-blue-300">@{result.username}</p>
+                                <p className="text-sm text-slate-400 truncate">{result.bio || 'No bio'}</p>
                               </div>
                             </div>
                             <button 
-                              className={`px-3 py-1 rounded-full text-xs font-medium ${
+                              className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 ${
                                 result.isFollowing 
-                                  ? 'bg-gray-200 text-gray-700 hover:bg-gray-300' 
-                                  : 'bg-DarkColor text-white hover:bg-ExtraDarkColor'
+                                  ? 'bg-slate-600 text-slate-200 hover:bg-slate-500' 
+                                  : 'bg-gradient-to-r from-blue-500 to-cyan-400 text-white hover:shadow-glow-blue'
                               }`}
                               onClick={() => handleFollowUser(result.id, result.isFollowing)}
                             >
@@ -472,7 +482,7 @@ const Navbar = ({ user }) => {
                       ))}
                     </ul>
                   ) : (
-                    <div className="p-4 text-center text-gray-500">
+                    <div className="p-4 text-center text-slate-400">
                       No users found matching "{searchTerm}"
                     </div>
                   )}
@@ -483,134 +493,33 @@ const Navbar = ({ user }) => {
           
           <div className="flex items-center space-x-4">
             <button 
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-full bg-slate-800/50 hover:bg-blue-500/20 hover:text-blue-400 transition-all duration-300 text-slate-300"
               onClick={() => navigate('/dashboard')}
               title="Dashboard"
             >
-              <i className='bx bxs-home text-xl text-DarkColor'></i>
+              <i className='bx bxs-dashboard text-xl'></i>
             </button>
             
-            {/* Learning Plans Button */}
+            {/* Learning Plans Button - Updated icon */}
             <button 
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-full bg-slate-800/50 hover:bg-blue-500/20 hover:text-blue-400 transition-all duration-300 text-slate-300"
               onClick={() => navigate('/learning-plans')}
               title="Learning Plans"
             >
-              <i className='bx bx-book-open text-xl text-DarkColor'></i>
+              <i className='bx bxs-graduation text-xl'></i>
             </button>
             
-            {/* Notification Bell */}
-            <div className="relative" ref={notificationRef}>
-              <button 
-                className="p-2 rounded-full hover:bg-gray-100 transition-colors relative"
-                onClick={toggleNotifications}
-                title="Notifications"
-              >
-                <i className='bx bx-bell text-xl text-DarkColor'></i>
-                {unreadCount > 0 && (
-                  <span className="absolute top-0 right-0 h-5 w-5 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
-                    {unreadCount > 9 ? '9+' : unreadCount}
-                  </span>
-                )}
-              </button>
-              
-              {/* Notifications Dropdown */}
-              {showNotifications && (
-                <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg overflow-hidden z-50">
-                  <div className="flex justify-between items-center p-3 border-b border-gray-100">
-                    <h3 className="font-semibold text-gray-700">Notifications</h3>
-                    <div className="flex space-x-2">
-                      <button 
-                        onClick={markAllAsRead} 
-                        className="text-xs text-blue-600 hover:text-blue-800"
-                        title="Mark all as read"
-                      >
-                        Mark all read
-                      </button>
-                      <button 
-                        onClick={clearAllNotifications} 
-                        className="text-xs text-red-600 hover:text-red-800"
-                        title="Clear all notifications"
-                      >
-                        Clear all
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <div className="max-h-96 overflow-y-auto">
-                    {isLoadingNotifications ? (
-                      <div className="flex justify-center items-center p-4">
-                        <div className="animate-spin rounded-full h-6 w-6 border-2 border-gray-500 border-t-DarkColor"></div>
-                      </div>
-                    ) : notifications.length > 0 ? (
-                      <ul>
-                        {notifications.map(notification => (
-                          <li 
-                            key={notification.id} 
-                            className={`border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${!notification.read ? 'bg-blue-50' : ''}`}
-                            onClick={() => handleNotificationClick(notification)}
-                          >
-                            <div className="flex p-3">
-                              <img 
-                                src={notification.senderProfilePicture || DefaultAvatar} 
-                                alt={notification.senderUsername}
-                                className="h-10 w-10 rounded-full object-cover"
-                              />
-                              <div className="ml-3 flex-1">
-                                <div className="flex justify-between">
-                                  <p className="text-sm text-gray-800">
-                                    <span className="font-medium">{notification.message}</span>
-                                  </p>
-                                  <span className="text-xs text-gray-500">{formatTime(notification.createdAt)}</span>
-                                </div>
-                                {!notification.read && (
-                                  <button 
-                                    className="text-xs text-blue-600 hover:text-blue-800 mt-1"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      markAsRead(notification.id);
-                                    }}
-                                  >
-                                    Mark as read
-                                  </button>
-                                )}
-                              </div>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <div className="p-4 text-center text-gray-500">
-                        <p>No notifications</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-            
-            <button 
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors relative"
-              onClick={() => navigate('/messages')}
-              title="Messages"
-            >
-              <i className='bx bx-message-square-detail text-xl text-DarkColor'></i>
-              {unreadMessageCount > 0 && (
-                <span className="absolute top-0 right-0 h-5 w-5 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
-                  {unreadMessageCount > 9 ? '9+' : unreadMessageCount}
-                </span>
-              )}
-            </button>
+            {/* Removing Notification and Message icons */}
             
             <div className="relative ml-3">
               <div>
                 <button 
-                  className="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-DarkColor"
+                  className="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300"
                   onClick={() => navigate('/profile')}
                   title="Profile"
                 >
                   <img 
-                    className="h-8 w-8 rounded-full object-cover border-2 border-DarkColor"
+                    className="h-9 w-9 rounded-full object-cover border-2 border-blue-400/50 hover:border-blue-400 hover:shadow-glow-blue transition-all duration-300"
                     src={user?.profilePicture || DefaultAvatar} 
                     alt={user?.username || 'User'}
                   />

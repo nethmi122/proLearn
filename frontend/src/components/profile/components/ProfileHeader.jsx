@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import DefaultCover from '../../../assets/p.png';
 import DefaultAvatar from '../../../assets/avatar.png';
+import GradientCover from './GradientCover';
 
 const ProfileHeader = ({ 
   user, 
@@ -22,15 +22,9 @@ const ProfileHeader = ({
   const navigate = useNavigate();
   
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-7xl mx-auto mt-6">
-      <div className="h-80 overflow-hidden relative">
-        <img
-          className="w-full object-cover h-full object-center transform hover:scale-105 transition-transform duration-500"
-          src={DefaultCover}
-          alt="Cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
-      </div>
+    <div className="bg-white shadow-lg rounded-xl overflow-hidden max-w-7xl mx-auto mt-6 border border-gray-100">
+      {/* Replace static image with dynamic gradient cover */}
+      <GradientCover userName={user.username} />
 
       {/* Profile Information Section */}
       <div className="relative px-6 pb-6">
@@ -84,6 +78,29 @@ const ProfileHeader = ({
             <p className="text-gray-600 mt-1 text-sm flex items-center">
               <i className='bx bx-envelope mr-1'></i> {user.email}
             </p>
+            
+            {/* Bio Section */}
+            <div className="mt-3">
+              {isEditing ? (
+                <div className="mb-3">
+                  <textarea
+                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-DarkColor"
+                    placeholder="Write something about yourself..."
+                    defaultValue={user.bio || ""}
+                    rows="3"
+                    maxLength="160"
+                  ></textarea>
+                  <p className="text-xs text-gray-500 text-right mt-1">Max 160 characters</p>
+                </div>
+              ) : (
+                user.bio && (
+                  <p className="text-gray-700 italic border-l-4 border-DarkColor pl-3 py-1 mt-2">
+                    "{user.bio}"
+                  </p>
+                )
+              )}
+            </div>
+            
             <div className="mt-3 flex space-x-4">
               <button
                 onClick={handleShowFollowers}
