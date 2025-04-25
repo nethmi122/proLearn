@@ -501,7 +501,7 @@ const Navbar = ({ user }) => {
             
             {/* Notification Bell */}
             <div className="relative" ref={notificationRef}>
-              <button 
+              {/* <button 
                 className="p-2 rounded-full hover:bg-gray-100 transition-colors relative"
                 onClick={toggleNotifications}
                 title="Notifications"
@@ -512,7 +512,7 @@ const Navbar = ({ user }) => {
                     {unreadCount > 9 ? '9+' : unreadCount}
                   </span>
                 )}
-              </button>
+              </button> */}
               
               {/* Notifications Dropdown */}
               {showNotifications && (
@@ -589,7 +589,7 @@ const Navbar = ({ user }) => {
               )}
             </div>
             
-            <button 
+            {/* <button 
               className="p-2 rounded-full hover:bg-gray-100 transition-colors relative"
               onClick={() => navigate('/messages')}
               title="Messages"
@@ -600,7 +600,7 @@ const Navbar = ({ user }) => {
                   {unreadMessageCount > 9 ? '9+' : unreadMessageCount}
                 </span>
               )}
-            </button>
+            </button> */}
             
             <div className="relative ml-3">
               <div>
