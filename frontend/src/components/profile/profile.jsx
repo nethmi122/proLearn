@@ -529,12 +529,12 @@ const Profile = () => {
   if (error) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-PrimaryColor">
-        <div className="bg-white p-8 rounded-lg shadow-md">
+        <div className="bg-white p-8 rounded-xl shadow-soft">
           <h2 className="text-xl text-red-600 font-semibold mb-4">Error</h2>
           <p>{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 bg-DarkColor text-white rounded-md hover:bg-ExtraDarkColor"
+            className="mt-4 btn-primary"
           >
             Retry
           </button>
@@ -544,7 +544,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-PrimaryColor">
       {/* Navbar */}
       <Navbar user={currentUser} />
 
@@ -569,16 +569,16 @@ const Profile = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto mt-6 px-4 sm:px-6 lg:px-8">
         {/* Main Content Area - AboutSection removed and grid adjusted */}
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-          <div className="border-b border-gray-200">
+        <div className="bg-white shadow-soft rounded-xl overflow-hidden">
+          <div className="border-b border-gray-100">
             <nav className="flex">
               <button
                 onClick={() => setActiveTab('posts')}
                 className={`py-4 px-6 text-center border-b-2 font-medium text-sm flex items-center ${
                   activeTab === 'posts'
                     ? 'border-DarkColor text-DarkColor'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
+                    : 'border-transparent text-gray-500 hover:text-DarkColor hover:border-DarkColor/30'
+                } transition-colors`}
               >
                 <i className="bx bx-message-square-detail mr-2 text-lg"></i>
                 Posts
@@ -588,8 +588,8 @@ const Profile = () => {
                 className={`py-4 px-6 text-center border-b-2 font-medium text-sm flex items-center ${
                   activeTab === 'learning'
                     ? 'border-DarkColor text-DarkColor'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
+                    : 'border-transparent text-gray-500 hover:text-DarkColor hover:border-DarkColor/30'
+                } transition-colors`}
               >
                 <i className="bx bx-book-open mr-2 text-lg"></i>
                 Learning
@@ -599,8 +599,8 @@ const Profile = () => {
                 className={`py-4 px-6 text-center border-b-2 font-medium text-sm flex items-center ${
                   activeTab === 'achievements'
                     ? 'border-DarkColor text-DarkColor'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
+                    : 'border-transparent text-gray-500 hover:text-DarkColor hover:border-DarkColor/30'
+                } transition-colors`}
               >
                 <i className="bx bx-trophy mr-2 text-lg"></i>
                 Achievements
@@ -662,6 +662,7 @@ const Profile = () => {
         postFileInputRef={postFileInputRef}
       />
 
+      {/* Modals */}
       {/* Followers Modal */}
       <FollowModal
         isOpen={showFollowersModal}
@@ -691,7 +692,7 @@ const Profile = () => {
       />
 
       {/* Footer */}
-      <footer className="bg-white mt-12 py-6 border-t">
+      <footer className="bg-white mt-12 py-6 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-gray-500 text-sm">
             © 2025 Prolearn Platform. All rights reserved.

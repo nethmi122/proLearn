@@ -279,19 +279,76 @@ const AchievementsTab = ({ user, currentUser, onUserUpdated }) => {
   return (
     <div className="space-y-6">
       {/* Achievements Section */}
-      <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-        <h2 className="text-lg font-semibold mb-4">Achievements</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          {achievements.map((achievement, index) => (
-            <div 
-              key={index} 
-              className={`p-4 rounded-lg shadow-sm border text-center ${achievement.achieved ? 'border-gray-200 bg-white' : 'border-gray-100 bg-gray-50 opacity-50'}`}
-            >
-              <i className={`bx ${achievement.icon} text-3xl ${achievement.achieved ? achievement.color : 'text-gray-400'} mb-2`}></i>
-              <p className="text-sm font-medium">{achievement.title}</p>
-              {!achievement.achieved && <p className="text-xs text-gray-500 mt-1">Not achieved yet</p>}
+      <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute -top-12 -right-12 w-40 h-40 bg-blue-500 opacity-10 rounded-full blur-xl"></div>
+        <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-purple-500 opacity-10 rounded-full blur-xl"></div>
+        
+        <div className="relative z-10">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-bold text-white flex items-center">
+              <i className="bx bx-medal text-2xl mr-2 text-blue-400"></i>
+              Achievements
+            </h2>
+            <div className="bg-slate-700 bg-opacity-50 px-3 py-1 rounded-full text-xs text-blue-300 font-medium">
+              {achievements.filter(a => a.achieved).length}/{achievements.length} Unlocked
             </div>
-          ))}
+          </div>
+          
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {achievements.map((achievement, index) => (
+              <div 
+                key={index}
+                className={`relative group transition-all duration-300 ease-in-out transform hover:-translate-y-1 ${
+                  achievement.achieved 
+                  ? 'opacity-100' 
+                  : 'opacity-60 grayscale'
+                }`}
+              >
+                <div className={`
+                  absolute inset-0 rounded-lg ${
+                    achievement.achieved 
+                    ? 'bg-gradient-to-br from-slate-700 to-slate-800 border border-slate-600' 
+                    : 'bg-slate-800 border border-slate-700'
+                  } shadow-lg`}
+                ></div>
+                
+                {achievement.achieved && (
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-400 rounded-full z-10 shadow-lg shadow-blue-500/50">
+                    <div className="absolute inset-0 animate-ping bg-blue-400 rounded-full opacity-75"></div>
+                  </div>
+                )}
+                
+                <div className="relative z-10 p-4 text-center">
+                  <div className={`
+                    h-12 w-12 mx-auto mb-3 rounded-full flex items-center justify-center
+                    ${achievement.achieved 
+                      ? `bg-opacity-20 bg-${achievement.color.split('-')[1]}-900` 
+                      : 'bg-slate-700'
+                    }
+                  `}>
+                    <i className={`bx ${achievement.icon} text-2xl ${
+                      achievement.achieved ? achievement.color : 'text-slate-400'
+                    }`}></i>
+                  </div>
+                  
+                  <p className={`text-sm font-medium ${
+                    achievement.achieved ? 'text-white' : 'text-slate-400'
+                  }`}>
+                    {achievement.title}
+                  </p>
+                  
+                  {!achievement.achieved && (
+                    <p className="text-xs text-slate-500 mt-1">Not unlocked</p>
+                  )}
+                  
+                  {achievement.achieved && (
+                    <div className="mt-1 h-0.5 w-8 bg-gradient-to-r from-transparent via-blue-400 to-transparent mx-auto"></div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

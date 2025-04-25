@@ -91,11 +91,11 @@ const Auth = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-sky-50 via-indigo-50 to-purple-100 p-4">
-            <div className={`auth-container max-w-5xl w-full bg-white rounded-2xl shadow-xl overflow-hidden transition-opacity duration-500 opacity-0 transform`}>
+        <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-DarkColor/5 via-indigo-50 to-accent-1/5 p-4">
+            <div className={`auth-container max-w-5xl w-full bg-surface-light rounded-2xl shadow-soft overflow-hidden transition-opacity duration-500 opacity-0 transform`}>
                 <div className="flex flex-col md:flex-row">
                     {/* Left side - Banner/Info Panel */}
-                    <div className="md:w-2/5 bg-gradient-to-br from-indigo-600 to-purple-700 text-white p-8 flex flex-col justify-center relative overflow-hidden">
+                    <div className="md:w-2/5 bg-gradient-to-br from-DarkColor to-accent-1 text-white p-8 flex flex-col justify-center relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-full">
                             <div className="absolute w-40 h-40 bg-white opacity-10 rounded-full -top-10 -left-10"></div>
                             <div className="absolute w-64 h-64 bg-white opacity-5 rounded-full -bottom-20 -right-20"></div>
@@ -109,7 +109,7 @@ const Auth = () => {
                             </p>
                             <button 
                                 onClick={() => setIsActive(!isActive)}
-                                className="px-8 py-3 border-2 border-white rounded-lg hover:bg-white hover:text-indigo-600 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+                                className="px-8 py-3 border-2 border-white rounded-lg hover:bg-white hover:text-DarkColor transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
                             >
                                 {isActive ? 'Sign In' : 'Create Account'}
                             </button>

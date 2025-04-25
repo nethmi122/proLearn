@@ -399,12 +399,12 @@ const Navbar = ({ user }) => {
   }, [user]);
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-surface-light shadow-soft sticky top-0 z-50 border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <span 
-              className="text-ExtraDarkColor text-xl font-bold cursor-pointer mr-6"
+              className="bg-gradient-to-r from-DarkColor to-accent-1 bg-clip-text text-transparent text-xl font-bold cursor-pointer mr-6"
               onClick={() => navigate('/dashboard')}
             >
               ProlearnX
@@ -415,24 +415,34 @@ const Navbar = ({ user }) => {
               <div className="relative">
                 <input
                   type="text"
-                  className="bg-gray-100 px-4 py-2 pr-10 rounded-full w-64 focus:outline-none focus:ring-2 focus:ring-DarkColor focus:bg-white transition-colors"
+                  className="input-field bg-gray-50 pl-10 pr-10 w-64"
                   placeholder="Search for users..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onFocus={handleSearchFocus}
                 />
+                <div className="absolute left-3 top-2.5 text-gray-400">
+                  <i className='bx bx-search'></i>
+                </div>
                 <div className="absolute right-3 top-2.5">
                   {isSearching ? (
                     <div className="animate-spin h-5 w-5 border-2 border-DarkColor border-t-transparent rounded-full"></div>
                   ) : (
-                    <i className='bx bx-search text-gray-500'></i>
+                    searchTerm && (
+                      <button 
+                        onClick={() => setSearchTerm('')}
+                        className="text-gray-400 hover:text-DarkColor"
+                      >
+                        <i className='bx bx-x'></i>
+                      </button>
+                    )
                   )}
                 </div>
               </div>
               
               {/* Search Results Dropdown */}
               {showResults && (
-                <div className="absolute mt-2 w-80 bg-white rounded-lg shadow-lg overflow-hidden z-10">
+                <div className="absolute mt-2 w-80 bg-white rounded-xl shadow-soft overflow-hidden z-10 border border-gray-100">
                   {searchResults.length > 0 ? (
                     <ul>
                       {searchResults.map((result) => (
@@ -483,20 +493,20 @@ const Navbar = ({ user }) => {
           
           <div className="flex items-center space-x-4">
             <button 
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-full hover:bg-gray-100 transition-colors text-DarkColor"
               onClick={() => navigate('/dashboard')}
               title="Dashboard"
             >
-              <i className='bx bxs-home text-xl text-DarkColor'></i>
+              <i className='bx bxs-home text-xl'></i>
             </button>
             
             {/* Learning Plans Button */}
             <button 
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-full hover:bg-gray-100 transition-colors text-DarkColor"
               onClick={() => navigate('/learning-plans')}
               title="Learning Plans"
             >
-              <i className='bx bx-book-open text-xl text-DarkColor'></i>
+              <i className='bx bx-book-open text-xl'></i>
             </button>
             
             {/* Notification Bell */}
@@ -605,12 +615,12 @@ const Navbar = ({ user }) => {
             <div className="relative ml-3">
               <div>
                 <button 
-                  className="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-DarkColor"
+                  className="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-DarkColor transition-all duration-300"
                   onClick={() => navigate('/profile')}
                   title="Profile"
                 >
                   <img 
-                    className="h-8 w-8 rounded-full object-cover border-2 border-DarkColor"
+                    className="h-8 w-8 rounded-full object-cover border-2 border-DarkColor/30 hover:border-DarkColor transition-colors"
                     src={user?.profilePicture || DefaultAvatar} 
                     alt={user?.username || 'User'}
                   />

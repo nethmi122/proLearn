@@ -337,29 +337,29 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-PrimaryColor">
       {/* Reusing the Navbar component */}
       <Navbar user={user} />
 
       <div className="max-w-3xl mx-auto mt-6 px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-ExtraDarkColor mb-6">Dashboard</h1>
+        <h1 className="text-3xl font-bold text-ExtraDarkColor mb-6 bg-gradient-to-r from-DarkColor to-accent-1 bg-clip-text text-transparent">Dashboard</h1>
         
         {/* Post Creation Form */}
-        <div className="bg-white shadow rounded-lg p-4 mb-6">
+        <div className="card p-4 mb-6">
           <div className="flex items-center mb-4">
             <img 
               src={user?.profilePicture || DefaultAvatar} 
               alt={user?.username} 
-              className="h-10 w-10 rounded-full object-cover"
+              className="h-10 w-10 rounded-full object-cover border border-gray-200"
             />
-            <h2 className="ml-3 font-semibold">Create Post</h2>
+            <h2 className="ml-3 font-semibold text-gray-800">Create Post</h2>
           </div>
           
           <form onSubmit={handleCreatePost}>
             <textarea
               value={postContent}
               onChange={(e) => setPostContent(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-DarkColor focus:border-DarkColor transition-colors"
+              className="input-field bg-gray-50"
               rows="3"
               placeholder="What's on your mind?"
             ></textarea>
@@ -406,7 +406,7 @@ const Dashboard = () => {
                   onClick={() => postFileInputRef.current?.click()}
                   className="flex items-center text-gray-700 hover:text-DarkColor transition-colors px-3 py-1 rounded-md hover:bg-gray-100"
                 >
-                  <i className='bx bx-image text-green-500 text-xl mr-1'></i> 
+                  <i className='bx bx-image text-accent-2 text-xl mr-1'></i> 
                   <span>Photo/Video</span>
                 </button>
               </div>
@@ -414,11 +414,11 @@ const Dashboard = () => {
               <button
                 type="submit"
                 disabled={isSubmittingPost || (!postContent.trim() && !postMedia)}
-                className={`px-4 py-2 rounded-lg ${
+                className={`btn-primary ${
                   isSubmittingPost || (!postContent.trim() && !postMedia)
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-DarkColor text-white hover:bg-ExtraDarkColor'
-                } transition-colors`}
+                    ? 'opacity-50 cursor-not-allowed'
+                    : ''
+                }`}
               >
                 {isSubmittingPost ? (
                   <div className="flex items-center">
