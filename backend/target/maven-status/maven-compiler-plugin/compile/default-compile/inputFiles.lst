@@ -1,11 +1,14 @@
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\model\Post.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\config\WebConfig.java
+C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\model\Message.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\model\Week.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\config\SecurityConfig.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\model\LearningUpdate.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\controller\LearningController.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\dto\ResourceDTO.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\service\LearningPlanService.java
+C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\repository\MessageRepository.java
+C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\controller\MessagingController.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\repository\LearningPlanRepository.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\repository\UserRepository.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\service\AuthService.java
@@ -22,9 +25,12 @@ C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharin
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\model\Notification.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\controller\TestController.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\package-info.java
+C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\repository\NotificationRepository.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\dto\AuthRequest.java
+C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\controller\UserController.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\model\User.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\dto\LearningPlanDTO.java
+C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\dto\UserProfileUpdateDTO.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\model\Resource.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\controller\PostController.java
 C:\Users\Yasindu\Documents\GitHub\proLearn\backend\src\main\java\com\skillsharing\dto\SharePostDTO.java
