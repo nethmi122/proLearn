@@ -9,6 +9,7 @@ import { useToast } from '../common/Toast';
 import SharePostModal from '../common/SharePostModal';
 import CommentSection from '../common/CommentSection';
 import ConfirmDialog from '../common/ConfirmDialog';
+import EditPostModal from '../common/EditPostModal';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -33,6 +34,10 @@ const Dashboard = () => {
   // Add state for confirm dialog
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [postToDelete, setPostToDelete] = useState(null);
+
+  // Add state for edit modal
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [postToEdit, setPostToEdit] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -239,7 +244,13 @@ const Dashboard = () => {
     setShowShareModal(true);
   };
 
-  // Add this handler to update posts when comments are added
+  // Add handleEditPost function
+  const handleEditPost = (post) => {
+    setPostToEdit(post);
+    setShowEditModal(true);
+  };
+
+  // Modify handlePostUpdated to work for edits and comments
   const handlePostUpdated = (updatedPost) => {
     setPosts(prevPosts => 
       prevPosts.map(post => 
@@ -337,29 +348,29 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-PrimaryColor">
+    <div className="min-h-screen bg-gray-50">
       {/* Reusing the Navbar component */}
       <Navbar user={user} />
 
       <div className="max-w-3xl mx-auto mt-6 px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-ExtraDarkColor mb-6 bg-gradient-to-r from-DarkColor to-accent-1 bg-clip-text text-transparent">Dashboard</h1>
+        <h1 className="text-3xl font-bold text-ExtraDarkColor mb-6">Dashboard</h1>
         
         {/* Post Creation Form */}
-        <div className="card p-4 mb-6">
+        <div className="bg-white shadow rounded-lg p-4 mb-6">
           <div className="flex items-center mb-4">
             <img 
               src={user?.profilePicture || DefaultAvatar} 
               alt={user?.username} 
-              className="h-10 w-10 rounded-full object-cover border border-gray-200"
+              className="h-10 w-10 rounded-full object-cover"
             />
-            <h2 className="ml-3 font-semibold text-gray-800">Create Post</h2>
+            <h2 className="ml-3 font-semibold">Create Post</h2>
           </div>
           
           <form onSubmit={handleCreatePost}>
             <textarea
               value={postContent}
               onChange={(e) => setPostContent(e.target.value)}
-              className="input-field bg-gray-50"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-DarkColor focus:border-DarkColor transition-colors"
               rows="3"
               placeholder="What's on your mind?"
             ></textarea>
@@ -406,7 +417,7 @@ const Dashboard = () => {
                   onClick={() => postFileInputRef.current?.click()}
                   className="flex items-center text-gray-700 hover:text-DarkColor transition-colors px-3 py-1 rounded-md hover:bg-gray-100"
                 >
-                  <i className='bx bx-image text-accent-2 text-xl mr-1'></i> 
+                  <i className='bx bx-image text-green-500 text-xl mr-1'></i> 
                   <span>Photo/Video</span>
                 </button>
               </div>
@@ -414,11 +425,11 @@ const Dashboard = () => {
               <button
                 type="submit"
                 disabled={isSubmittingPost || (!postContent.trim() && !postMedia)}
-                className={`btn-primary ${
+                className={`px-4 py-2 rounded-lg ${
                   isSubmittingPost || (!postContent.trim() && !postMedia)
-                    ? 'opacity-50 cursor-not-allowed'
-                    : ''
-                }`}
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-DarkColor text-white hover:bg-ExtraDarkColor'
+                } transition-colors`}
               >
                 {isSubmittingPost ? (
                   <div className="flex items-center">
@@ -461,9 +472,18 @@ const Dashboard = () => {
                     </div>
                   </div>
                   
-                  {/* Add post delete option - only shown for post author */}
+                  {/* Add post edit/delete options - only shown for post author */}
                   {user && post.authorId === user.id && (
-                    <div className="relative group">
+                    <div className="flex space-x-2">
+                      {!post.originalPostId && (
+                        <button 
+                          className="text-gray-400 hover:text-blue-500 p-1 rounded-full hover:bg-gray-100"
+                          onClick={() => handleEditPost(post)}
+                          title="Edit post"
+                        >
+                          <i className='bx bx-edit'></i>
+                        </button>
+                      )}
                       <button 
                         className="text-gray-400 hover:text-red-500 p-1 rounded-full hover:bg-gray-100"
                         onClick={() => handleDeletePost(post.id)}
@@ -487,6 +507,7 @@ const Dashboard = () => {
                 
                 <div className="mb-3">
                   <p className="text-gray-800 whitespace-pre-line">{post.content}</p>
+                  {post.edited && <span className="text-xs italic text-gray-500">(edited)</span>}
                 </div>
                 
                 {post.mediaUrl && (
@@ -569,6 +590,15 @@ const Dashboard = () => {
         message="Are you sure you want to delete this post? This action cannot be undone and any shared versions of this post will also be removed."
         confirmText="Delete"
         cancelText="Cancel"
+      />
+
+      {/* Add EditPostModal */}
+      <EditPostModal
+        isOpen={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        post={postToEdit}
+        currentUser={user}
+        onPostUpdated={handlePostUpdated}
       />
     </div>
   );
