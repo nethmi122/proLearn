@@ -458,72 +458,8 @@ public class PostController {
         
         return ResponseEntity.ok(response);
     }
-    
-    @PostMapping("/{postId}/comment")
-    public ResponseEntity<Post> addComment(@PathVariable String postId, @RequestBody Map<String, String> request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        
-        User currentUser = userRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-        
-        Post post = postRepository.findById(postId)
-            .orElseThrow(() -> new RuntimeException("Post not found"));
-        
-        String content = request.get("content");
-        if (content == null || content.trim().isEmpty()) {
-            throw new RuntimeException("Comment content cannot be empty");
-        }
-        
-        Post.Comment comment = Post.Comment.builder()
-            .id(UUID.randomUUID().toString())
-            .userId(currentUser.getId())
-            .username(currentUser.getUsername())
-            .userProfilePicture(currentUser.getProfilePicture())
-            .content(content)
-            .createdAt(LocalDateTime.now())
-            .build();
-        
-        List<Post.Comment> comments = post.getComments();
-        comments.add(comment);
-        post.setComments(comments);
-        
-        Post updatedPost = postRepository.save(post);
-        logger.info("Comment added to post: {}", postId);
-        
-        // Create a notification for the post author (if the commenter is not the author)
-        if (!post.getAuthorId().equals(currentUser.getId())) {
-            try {
-                Notification notification = new Notification();
-                notification.setUserId(post.getAuthorId());
-                notification.setSenderId(currentUser.getId());
-                notification.setSenderUsername(currentUser.getUsername());
-                notification.setSenderProfilePicture(currentUser.getProfilePicture());
-                notification.setType("COMMENT");
-                notification.setResourceId(postId);
-                
-                String fullName = currentUser.getFirstName() != null && currentUser.getLastName() != null
-                    ? currentUser.getFirstName() + " " + currentUser.getLastName()
-                    : currentUser.getFirstName() != null
-                        ? currentUser.getFirstName() 
-                        : currentUser.getLastName() != null 
-                            ? currentUser.getLastName() 
-                            : currentUser.getUsername();
-                
-                notification.setMessage(fullName + " commented on your post");
-                notification.setRead(false);
-                notification.setCreatedAt(LocalDateTime.now());
-                
-                notificationRepository.save(notification);
-                logger.info("Created comment notification for user: {}", post.getAuthorId());
-            } catch (Exception e) {
-                logger.error("Failed to create notification", e);
-                // Continue with the comment operation even if notification creation fails
-            }
-        }
-        
-        return ResponseEntity.ok(updatedPost);
-    }
+      // The original addComment method is retained at /{postId}/comments endpoint
+    // This duplicate endpoint was removed to resolve the conflict
     
     @PostMapping("/{postId}/share")
     public ResponseEntity<?> sharePost(@PathVariable String postId, @RequestBody(required = false) SharePostDTO sharePostDTO) {
