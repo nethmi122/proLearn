@@ -219,8 +219,6 @@ const AchievementsTab = ({ user, currentUser, onUserUpdated }) => {
       achieved: uniqueSkills.size >= 5
     });
     
-
-    
     if (learningUpdates.length >= 2) {
       const dates = learningUpdates.map(update => new Date(update.completedAt));
       const earliestDate = new Date(Math.min(...dates));
@@ -250,7 +248,6 @@ const AchievementsTab = ({ user, currentUser, onUserUpdated }) => {
       achieved: totalHours >= 50
     });
     
-   
     return achievements;
   };
 
@@ -265,32 +262,131 @@ const AchievementsTab = ({ user, currentUser, onUserUpdated }) => {
   const achievements = generateAchievements();
 
   return (
-    <div className="space-y-6">
-      {/* Achievements Section */}
-      <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute -top-12 -right-12 w-40 h-40 bg-blue-500 opacity-10 rounded-full blur-xl"></div>
-        <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-purple-500 opacity-10 rounded-full blur-xl"></div>
-        
-        <div className="relative z-10">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-white flex items-center">
-              <i className="bx bx-medal text-2xl mr-2 text-blue-400"></i>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Learning Progress Section (Left) */}
+      <div className="space-y-6">
+        <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold">Learning Progress</h2>
+            {isCurrentUserProfile && (
+              <button
+                onClick={() => {
+                  setIsEditMode(false);
+                  setUpdateToEdit(null);
+                  setShowLearningModal(true);
+                }}
+                className="px-4 py-2 bg-DarkColor text-white rounded-md hover:bg-ExtraDarkColor transition-colors"
+              >
+                <i className='bx bx-plus mr-2'></i> Add Update
+              </button>
+            )}
+          </div>
+
+          {learningUpdates.length > 0 ? (
+            <div className="space-y-4">
+              {learningUpdates.map(update => (
+                <div key={update.id} className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200">
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center">
+                      <div className="h-10 w-10 bg-DarkColor rounded-full flex items-center justify-center text-white">
+                        <i className={`bx ${getCategoryIcon(update.category)} text-xl`}></i>
+                      </div>
+                      <div className="ml-3">
+                        <h3 className="font-semibold text-lg">{update.title || update.resourceName}</h3>
+                        <p className="text-sm text-gray-500">
+                          Completed on {formatDate(update.completedAt)}
+                        </p>
+                      </div>
+                    </div>
+                    {isCurrentUserProfile && (
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => handleEditClick(update)}
+                          className="text-gray-400 hover:text-blue-500"
+                          title="Edit this update"
+                        >
+                          <i className='bx bx-edit-alt'></i>
+                        </button>
+                        <button
+                          onClick={() => handleDeleteClick(update.id)}
+                          className="text-gray-400 hover:text-red-500"
+                          title="Delete this update"
+                        >
+                          <i className='bx bx-trash'></i>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="mt-3">
+                    {update.description && (
+                      <p className="text-gray-700 mb-3">{update.description}</p>
+                    )}
+                    
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {update.skillsLearned && update.skillsLearned.map((skill, index) => (
+                        <span key={index} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                    
+                    <div className="flex items-center text-sm text-gray-500 space-x-4">
+                      <span className={`flex items-center ${getDifficultyColor(update.difficulty)}`}>
+                        <i className='bx bx-signal-4 mr-1'></i> {update.difficulty}
+                      </span>
+                      {update.hoursSpent && (
+                        <span className="flex items-center">
+                          <i className='bx bx-time mr-1'></i> {update.hoursSpent} hours
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-10 bg-gray-50 rounded-lg">
+              <div className="inline-block mx-auto">
+                <i className='bx bx-book-open text-5xl text-gray-400'></i>
+              </div>
+              <p className="mt-2 text-gray-600">
+                {isCurrentUserProfile 
+                  ? "You haven't tracked any learning progress yet." 
+                  : "This user hasn't shared any learning progress yet."}
+              </p>
+              {isCurrentUserProfile && (
+                <button
+                  onClick={() => setShowLearningModal(true)}
+                  className="mt-4 px-4 py-2 bg-DarkColor text-white rounded-md hover:bg-ExtraDarkColor"
+                >
+                  Track Your First Progress
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Achievements Section (Right) */}
+      <div className="space-y-6">
+        <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold flex items-center">
+              <i className="bx bx-medal text-xl mr-2 text-blue-400"></i>
               Achievements
             </h2>
-            <div className="bg-slate-700 bg-opacity-50 px-3 py-1 rounded-full text-xs text-blue-300 font-medium">
+            <div className="bg-gray-100 px-3 py-1 rounded-full text-xs text-blue-600 font-medium">
               {achievements.filter(a => a.achieved).length}/{achievements.length} Unlocked
             </div>
           </div>
-          
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+
+          <div className="space-y-4">
             {achievements.map((achievement, index) => (
-              <div 
+              <div
                 key={index}
                 className={`relative group transition-all duration-300 ease-in-out transform hover:-translate-y-1 ${
-                  achievement.achieved 
-                  ? 'opacity-100' 
-                  : 'opacity-60 grayscale'
+                  achievement.achieved ? 'opacity-100' : 'opacity-60 grayscale'
                 }`}
               >
                 <div className={`
@@ -300,149 +396,41 @@ const AchievementsTab = ({ user, currentUser, onUserUpdated }) => {
                     : 'bg-slate-800 border border-slate-700'
                   } shadow-lg`}
                 ></div>
-                
                 {achievement.achieved && (
                   <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-400 rounded-full z-10 shadow-lg shadow-blue-500/50">
                     <div className="absolute inset-0 animate-ping bg-blue-400 rounded-full opacity-75"></div>
                   </div>
                 )}
-                
-                <div className="relative z-10 p-4 text-center">
+                <div className="relative z-10 p-4 flex items-center">
                   <div className={`
-                    h-12 w-12 mx-auto mb-3 rounded-full flex items-center justify-center
+                    h-10 w-10 rounded-full flex items-center justify-center
                     ${achievement.achieved 
                       ? `bg-opacity-20 bg-${achievement.color.split('-')[1]}-900` 
                       : 'bg-slate-700'
                     }
                   `}>
-                    <i className={`bx ${achievement.icon} text-2xl ${
+                    <i className={`bx ${achievement.icon} text-xl ${
                       achievement.achieved ? achievement.color : 'text-slate-400'
                     }`}></i>
                   </div>
-                  
-                  <p className={`text-sm font-medium ${
-                    achievement.achieved ? 'text-white' : 'text-slate-400'
-                  }`}>
-                    {achievement.title}
-                  </p>
-                  
-                  {!achievement.achieved && (
-                    <p className="text-xs text-slate-500 mt-1">Not unlocked</p>
-                  )}
-                  
-                  {achievement.achieved && (
-                    <div className="mt-1 h-0.5 w-8 bg-gradient-to-r from-transparent via-blue-400 to-transparent mx-auto"></div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Learning Progress Section */}
-      <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold">Learning Progress</h2>
-          {isCurrentUserProfile && (
-            <button
-              onClick={() => {
-                setIsEditMode(false);
-                setUpdateToEdit(null);
-                setShowLearningModal(true);
-              }}
-              className="px-4 py-2 bg-DarkColor text-white rounded-md hover:bg-ExtraDarkColor transition-colors"
-            >
-              <i className='bx bx-plus mr-2'></i> Add Update
-            </button>
-          )}
-        </div>
-
-        {learningUpdates.length > 0 ? (
-          <div className="space-y-4">
-            {learningUpdates.map(update => (
-              <div key={update.id} className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200">
-                <div className="flex justify-between items-start">
-                  <div className="flex items-center">
-                    <div className="h-10 w-10 bg-DarkColor rounded-full flex items-center justify-center text-white">
-                      <i className={`bx ${getCategoryIcon(update.category)} text-xl`}></i>
-                    </div>
-                    <div className="ml-3">
-                      <h3 className="font-semibold text-lg">{update.title || update.resourceName}</h3>
-                      <p className="text-sm text-gray-500">
-                        Completed on {formatDate(update.completedAt)}
-                      </p>
-                    </div>
-                  </div>
-                  {isCurrentUserProfile && (
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => handleEditClick(update)}
-                        className="text-gray-400 hover:text-blue-500"
-                        title="Edit this update"
-                      >
-                        <i className='bx bx-edit-alt'></i>
-                      </button>
-                      <button
-                        onClick={() => handleDeleteClick(update.id)}
-                        className="text-gray-400 hover:text-red-500"
-                        title="Delete this update"
-                      >
-                        <i className='bx bx-trash'></i>
-                      </button>
-                    </div>
-                  )}
-                </div>
-                
-                <div className="mt-3">
-                  {update.description && (
-                    <p className="text-gray-700 mb-3">{update.description}</p>
-                  )}
-                  
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {update.skillsLearned && update.skillsLearned.map((skill, index) => (
-                      <span key={index} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <div className="flex items-center text-sm text-gray-500 space-x-4">
-                    <span className={`flex items-center ${getDifficultyColor(update.difficulty)}`}>
-                      <i className='bx bx-signal-4 mr-1'></i> {update.difficulty}
-                    </span>
-                    {update.hoursSpent && (
-                      <span className="flex items-center">
-                        <i className='bx bx-time mr-1'></i> {update.hoursSpent} hours
-                      </span>
+                  <div className="ml-3">
+                    <p className={`font-semibold ${
+                      achievement.achieved ? 'text-white' : 'text-slate-400'
+                    }`}>
+                      {achievement.title}
+                    </p>
+                    {!achievement.achieved && (
+                      <p className="text-xs text-slate-500">Not unlocked</p>
                     )}
                   </div>
                 </div>
+                {achievement.achieved && (
+                  <div className="relative z-10 h-0.5 w-8 bg-gradient-to-r from-transparent via-blue-400 to-transparent ml-14 mb-2"></div>
+                )}
               </div>
             ))}
           </div>
-        ) : (
-          <div className="text-center py-10 bg-gray-50 rounded-lg">
-            <div className="inline-block mx-auto">
-              <i className='bx bx-book-open text-5xl text-gray-400'></i>
-            </div>
-            <p className="mt-2 text-gray-600">
-              {isCurrentUserProfile 
-                ? "You haven't tracked any learning progress yet." 
-                : "This user hasn't shared any learning progress yet."}
-            </p>
-            {isCurrentUserProfile && (
-              <button
-                onClick={() => setShowLearningModal(true)}
-                className="mt-4 px-4 py-2 bg-DarkColor text-white rounded-md hover:bg-ExtraDarkColor"
-              >
-                Track Your First Progress
-              </button>
-            )}
-          </div>
-        )}
-        
-        
+        </div>
       </div>
 
       <LearningUpdateModal
@@ -462,8 +450,8 @@ const AchievementsTab = ({ user, currentUser, onUserUpdated }) => {
         message="Are you sure you want to delete this learning update? This action cannot be undone."
         confirmText="Delete"
         cancelText="Cancel"
-      />
-    </div>
+        />
+        </div>
   );
 };
 
