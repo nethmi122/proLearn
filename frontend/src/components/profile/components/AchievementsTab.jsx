@@ -219,12 +219,7 @@ const AchievementsTab = ({ user, currentUser, onUserUpdated }) => {
       achieved: uniqueSkills.size >= 5
     });
     
-    achievements.push({
-      title: 'Learning Addict',
-      icon: 'bx-book-bookmark',
-      color: 'text-blue-500',
-      achieved: learningUpdates.length >= 10
-    });
+
     
     if (learningUpdates.length >= 2) {
       const dates = learningUpdates.map(update => new Date(update.completedAt));
@@ -255,14 +250,7 @@ const AchievementsTab = ({ user, currentUser, onUserUpdated }) => {
       achieved: totalHours >= 50
     });
     
-    const hasAdvanced = learningUpdates.some(update => update.difficulty === 'ADVANCED');
-    achievements.push({
-      title: 'Advanced Learner',
-      icon: 'bx-medal',
-      color: 'text-red-500',
-      achieved: hasAdvanced
-    });
-    
+   
     return achievements;
   };
 
@@ -454,35 +442,7 @@ const AchievementsTab = ({ user, currentUser, onUserUpdated }) => {
           </div>
         )}
         
-        {learningUpdates.length > 0 && (
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <h3 className="text-md font-semibold mb-4">Learning Summary</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="bg-gray-50 p-3 rounded-lg text-center">
-                <div className="text-2xl font-bold text-DarkColor">{learningUpdates.length}</div>
-                <div className="text-sm text-gray-500">Updates</div>
-              </div>
-              <div className="bg-gray-50 p-3 rounded-lg text-center">
-                <div className="text-2xl font-bold text-DarkColor">
-                  {learningUpdates.reduce((sum, update) => sum + (update.hoursSpent || 0), 0)}
-                </div>
-                <div className="text-sm text-gray-500">Hours</div>
-              </div>
-              <div className="bg-gray-50 p-3 rounded-lg text-center">
-                <div className="text-2xl font-bold text-DarkColor">
-                  {new Set(learningUpdates.flatMap(update => update.skillsLearned || [])).size}
-                </div>
-                <div className="text-sm text-gray-500">Skills</div>
-              </div>
-              <div className="bg-gray-50 p-3 rounded-lg text-center">
-                <div className="text-2xl font-bold text-DarkColor">
-                  {learningUpdates.filter(update => update.difficulty === 'ADVANCED').length}
-                </div>
-                <div className="text-sm text-gray-500">Advanced</div>
-              </div>
-            </div>
-          </div>
-        )}
+        
       </div>
 
       <LearningUpdateModal
