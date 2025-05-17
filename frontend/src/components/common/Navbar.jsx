@@ -510,7 +510,106 @@ const Navbar = ({ user }) => {
             </button>
             
             {/* Removing Notification and Message icons */}
-            
+             <div className="relative" ref={notificationRef}>
+                          <button 
+                            className="p-2 rounded-full hover:bg-gray-100 transition-colors relative"
+                            onClick={toggleNotifications}
+                            title="Notifications"
+                          >
+                            <i className='bx bx-bell text-xl text-DarkColor'></i>
+                            {unreadCount > 0 && (
+                              <span className="absolute top-0 right-0 h-5 w-5 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
+                                {unreadCount > 9 ? '9+' : unreadCount}
+                              </span>
+                            )}
+                          </button>
+                          
+                          {/* Notifications Dropdown */}
+                          {showNotifications && (
+                            <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg overflow-hidden z-50">
+                              <div className="flex justify-between items-center p-3 border-b border-gray-100">
+                                <h3 className="font-semibold text-gray-700">Notifications</h3>
+                                <div className="flex space-x-2">
+                                  <button 
+                                    onClick={markAllAsRead} 
+                                    className="text-xs text-blue-600 hover:text-blue-800"
+                                    title="Mark all as read"
+                                  >
+                                    Mark all read
+                                  </button>
+                                  <button 
+                                    onClick={clearAllNotifications} 
+                                    className="text-xs text-red-600 hover:text-red-800"
+                                    title="Clear all notifications"
+                                  >
+                                    Clear all
+                                  </button>
+                                </div>
+                              </div>
+                              
+                              <div className="max-h-96 overflow-y-auto">
+                                {isLoadingNotifications ? (
+                                  <div className="flex justify-center items-center p-4">
+                                    <div className="animate-spin rounded-full h-6 w-6 border-2 border-gray-500 border-t-DarkColor"></div>
+                                  </div>
+                                ) : notifications.length > 0 ? (
+                                  <ul>
+                                    {notifications.map(notification => (
+                                      <li 
+                                        key={notification.id} 
+                                        className={`border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${!notification.read ? 'bg-blue-50' : ''}`}
+                                        onClick={() => handleNotificationClick(notification)}
+                                      >
+                                        <div className="flex p-3">
+                                          <img 
+                                            src={notification.senderProfilePicture || DefaultAvatar} 
+                                            alt={notification.senderUsername}
+                                            className="h-10 w-10 rounded-full object-cover"
+                                          />
+                                          <div className="ml-3 flex-1">
+                                            <div className="flex justify-between">
+                                              <p className="text-sm text-gray-800">
+                                                <span className="font-medium">{notification.message}</span>
+                                              </p>
+                                              <span className="text-xs text-gray-500">{formatTime(notification.createdAt)}</span>
+                                            </div>
+                                            {!notification.read && (
+                                              <button 
+                                                className="text-xs text-blue-600 hover:text-blue-800 mt-1"
+                                                onClick={(e) => {
+                                                  e.stopPropagation();
+                                                  markAsRead(notification.id);
+                                                }}
+                                              >
+                                                Mark as read
+                                              </button>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                ) : (
+                                  <div className="p-4 text-center text-gray-500">
+                                    <p>No notifications</p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+            <button 
+              className="p-2 rounded-full hover:bg-gray-100 transition-colors relative"
+              onClick={() => navigate('/messages')}
+              title="Messages"
+            >
+              <i className='bx bx-message-square-detail text-xl text-DarkColor'></i>
+              {unreadMessageCount > 0 && (
+                <span className="absolute top-0 right-0 h-5 w-5 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
+                  {unreadMessageCount > 9 ? '9+' : unreadMessageCount}
+                </span>
+              )}
+            </button>
             <div className="relative ml-3">
               <div>
                 <button 
